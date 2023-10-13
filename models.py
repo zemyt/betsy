@@ -1,25 +1,9 @@
+# This file defines the database models using the Peewee ORM
 import peewee
 from peewee import SQL
 
+
 db = peewee.SqliteDatabase("database.db")
-
-# Models go here
-
-"""
-USER -> name , address data, billing information
-
-each user must be able to own a number of products
-
-The PRODUCTS must have a [ name, description, price per unit, quantity(describing the amount in stock)]
-
-The price should be stored in a safe way, rounding error should be impossible
-The tags should not be duplicated. ( welke tags??? )
-
-We want to be able to track purchases made on the marketplace, therefore a transaction model must exist
-The transaction model must link a buyer with a purchased product and a quantity of purchased items
-
-As a bonus requirement, you must consider the various constraints for all fields and incorporate these constraints in the data model. 
-"""
 
 
 class Tag(peewee.Model):
