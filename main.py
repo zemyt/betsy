@@ -15,25 +15,27 @@ __human_name__ = "Betsy Webshop"
 db = SqliteDatabase("database.db")
 db.connect()
 logging.basicConfig(
-    filename="error.log",
+    filename="error.lg",
     level=logging.ERROR,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 
 
 def main():
-    # search("ayayay") √
-    # list_user_products("string") # kan nog testen op wel user geen products EN of quantity
-    # list_products_per_tag(24) √
-    # add_product_to_catalog(1, gourmet_coffee_beans)
-    # update_stock(13, 11)
-    purchase_product(13, 2, 12)
+    # search("searchterm")
 
-    # get_transaction(2)
+    # list_user_products(1)
+
+    # list_products_per_tag(1)
+
+    add_product_to_catalog(1, gourmet_coffee_beans)
+
+    # update_stock(1, 1)
+
+    # purchase_product(1, 5, 1)
+
+    # remove_product(20)
     ...
-
-
-# QUERY FUNCTIONS
 
 
 # Search for products in catalog based on name/description
@@ -76,6 +78,7 @@ def search(searchterm: str):
 def list_user_products(user_id: int):
     if not isinstance(user_id, int):
         return print("user_id must be an integer.")
+
     try:
         user = User.get(User.id == user_id)
         query = user.inventory.select(  # Get the inventory for the user
@@ -124,8 +127,7 @@ def list_products_per_tag(tag_id: int):
         print(error_message)
 
 
-# Add product to a user.
-# Takes in a product instance from ProductData and adds it to the database to the user
+# Add product to a user. Takes in a product instance from ProductData and adds it to the database to the user
 def add_product_to_catalog(user_id: int, product: ProductData):
     if not isinstance(user_id, int):
         return print("user_id must be an integer.")
@@ -205,7 +207,6 @@ def update_stock(product_id: int, new_quantity: int):
         print(error_message)
 
 
-# ADD MESSAGE WHEN BOUGHT REMOVE OTHER PRINTS
 # Handle a purchase between a buyer and a seller for a given product
 def purchase_product(product_id: int, buyer_id: int, quantity: int):
     if not isinstance(product_id, int):
@@ -254,12 +255,16 @@ def purchase_product(product_id: int, buyer_id: int, quantity: int):
 # Remove a product from a user.
 def remove_product(product_id: int):
     if not isinstance(product_id, int):
-        print("product_id must be an integer.")
-        return
+        return print("product_id must be an integer.")
+
     try:
         product = Product.get(Product.id == product_id)
         if product:
             try:
+                UserProductThrough.delete().where(
+                    UserProductThrough.product == product
+                ).execute()
+
                 product.delete_instance()
                 print(f"Successfully deleted: {product.name}.")
             except IntegrityError as e:
@@ -267,7 +272,7 @@ def remove_product(product_id: int):
                 logging.error(error_message, exc_info=True)
                 print(error_message)
     except Product.DoesNotExist:
-        error_message = "Product ID [{product_id}] does not exist."
+        error_message = f"Product ID [{product_id}] does not exist."
         logging.error(error_message, exc_info=True)
         print(error_message)
 
