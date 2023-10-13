@@ -4,9 +4,9 @@ from data import user_data, tag_data
 
 
 def main():
-    delete_database()
-    setup_test_database()
-    populate_test_database()
+    # delete_database()
+    # setup_test_database()
+    # populate_test_database()
     ...
 
 
@@ -27,6 +27,7 @@ def setup_test_database():
     )
 
 
+# Add data from data.py to the database
 def populate_test_database():
     database_filename = "database.db"
     if not os.path.isfile(database_filename):
