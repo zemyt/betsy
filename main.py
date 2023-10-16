@@ -20,7 +20,7 @@ __human_name__ = "Betsy Webshop"
 db = SqliteDatabase("database.db")
 db.connect()
 logging.basicConfig(
-    filename="error.lg",
+    filename="error.log",
     level=logging.ERROR,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
