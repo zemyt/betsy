@@ -5,13 +5,18 @@ from models import *
 from peewee import SqliteDatabase, IntegrityError
 from fuzzywuzzy import fuzz
 from datetime import datetime
-from data import ProductData, blue_backack, wireless_earbuds, gourmet_coffee_beans
+from data import (
+    ProductData,
+    blue_backack,
+    wireless_earbuds,
+    gourmet_coffee_beans,
+)
 
 # Do not modify these lines
 __winc_id__ = "d7b474e9b3a54d23bca54879a4f1855b"
 __human_name__ = "Betsy Webshop"
 
-# Add your code after this line
+
 db = SqliteDatabase("database.db")
 db.connect()
 logging.basicConfig(
@@ -28,13 +33,16 @@ def main():
 
     # list_products_per_tag(1)
 
-    add_product_to_catalog(1, gourmet_coffee_beans)
+    # add_product_to_catalog(1, gourmet_coffee_beans)
 
     # update_stock(1, 1)
 
-    # purchase_product(1, 5, 1)
+    # purchase_product(2, 5, 1)
 
     # remove_product(20)
+
+    # get_transaction(1)
+
     ...
 
 
@@ -143,6 +151,7 @@ def add_product_to_catalog(user_id: int, product: ProductData):
     if not isinstance(product, ProductData):  # Check if data given is correct
         return print("Product should be an instance of ProductData")
 
+    product.price_per_unit = round(product.price_per_unit, 2)
     # Check is the product already exists
     existing_product = user.inventory.filter(
         (Product.name == product.name)
@@ -263,7 +272,7 @@ def remove_product(product_id: int):
             try:
                 UserProductThrough.delete().where(
                     UserProductThrough.product == product
-                ).execute()
+                ).execute()  # Also Delete the product from the UserProductThrough, avoiding duplicate IDs / errors
 
                 product.delete_instance()
                 print(f"Successfully deleted: {product.name}.")
