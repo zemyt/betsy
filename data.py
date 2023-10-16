@@ -1,3 +1,6 @@
+# This file contains sample data
+
+
 class ProductData:
     def __init__(
         self,
@@ -58,14 +61,14 @@ user_data = [
             (
                 "Laptop",
                 "High-performance laptop with SSD storage",
-                999,
+                999.9999,
                 10,
                 ["electronics", "computers"],
             ),
             (
                 "Coffee Maker",
                 "Automatic coffee maker with built-in grinder",
-                80,
+                80.66666,
                 5,
                 ["appliances", "kitchen"],
             ),
