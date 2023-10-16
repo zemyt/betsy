@@ -26,6 +26,14 @@ logging.basicConfig(
 )
 
 
+"""
+Before running this code, make sure to install the required packages
+using the following commands:
+pip install fuzzywuzzy
+pip install python-Levenshtein
+"""
+
+
 def main():
     # search("searchterm")
 
