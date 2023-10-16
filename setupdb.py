@@ -6,7 +6,8 @@ from data import user_data, tag_data
 def main():
     # delete_database()
     # setup_test_database()
-    # populate_test_database()
+
+    populate_test_database()
     ...
 
 
@@ -27,7 +28,7 @@ def setup_test_database():
     )
 
 
-# Add data from data.py to the database
+# Add data from data.py to the database, doesn't account for existing data
 def populate_test_database():
     database_filename = "database.db"
     if not os.path.isfile(database_filename):
@@ -76,7 +77,7 @@ def populate_test_database():
             product = models.Product.create(
                 name=product_name,
                 description=product_description,
-                price_per_unit=product_price,
+                price_per_unit=round(product_price, 2),
                 quantity=product_quantity,
             )
 
@@ -88,6 +89,7 @@ def populate_test_database():
                     product.tags.add(tag)
 
             user_instance.inventory.add(product)
+    print("Filled database with test data.")
 
 
 def delete_database():
@@ -95,6 +97,7 @@ def delete_database():
     database_path = os.path.join(cwd, "database.db")
     if os.path.exists(database_path):
         os.remove(database_path)
+        print("Deleted database.")
 
 
 if __name__ == "__main__":
